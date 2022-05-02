@@ -1,48 +1,46 @@
 #![allow(warnings)]
 
 use std::path::Path;
-use qrcode_png::*;
-use image;
-use std::error::Error;
-use rqrr::PreparedImage;
+
+// MODULES
+mod read;
+pub use crate::read::reader;
+
+mod create;
+pub use crate::create::creator;
 
 
-type BoxResult<T> = Result<T, Box<dyn Error>>;
-fn read(filepath: &str) -> BoxResult<Vec<String>> {
-	let img = image::open(filepath)?.to_luma8();
-	let mut prepared_img = PreparedImage::prepare(img);
+fn input() {
+	println!("\nEnter command 'scan/create/help' -> ");
 
-	let grids = prepared_img.detect_grids();
-	let contents = grids.into_iter().map(|grid| {
-		let (_, content) = grid.decode().unwrap_or_else(|err| {
-		eprintln!("\nERROR reading data from qr code: {}", err);
-		panic!();
-	});
-	content}).collect::<Vec<String>>();
-		
-	Ok(contents)
-}
+	let mut resp = String::new();
+	std::io::stdin().read_line(&mut resp).expect("Failes");
+	let rsp = &resp[0..&resp.len() - 2].to_string();
 
-fn generate() {
-	let mut qrcode = QrCode::new(b"Hello Rust ! Iam NKR413", QrCodeEcc::Medium).unwrap();
+	if rsp == "/scan" {
+		println!("\nEnter file name -> ");
 
-	qrcode.margin(10);
-	qrcode.zoom(10);
+		let mut new_resp = String::new();
+		std::io::stdin().read_line(&mut new_resp).expect("Failes");
+		let fileph = &new_resp[0..&new_resp.len() - 2].to_string();
 
-	let buf = qrcode.generate(Color::Grayscale(0, 255)).unwrap();
-	std::fs::write("./qrcode.png", buf).unwrap();
-}
-
-
-fn main() {
-	let cmtype = std::env::args().nth(1).expect("no pattern given");
-	
-	if cmtype == "scan" {
-		let fileph = std::env::args().nth(2).expect("no pattern given");
-
-		if Path::new(&fileph).exists() == true { println!("{:?}", read(&fileph).unwrap()); }
-		else { println!("Incorrect file path :("); }
+		if Path::new(&fileph).exists() == true { println!("{:?}", reader::scan(&fileph).unwrap()); }
+		else { println!("Incorrect file name or file path :("); }
 	}
 
-	if cmtype == "create" { generate(); }
+	else if rsp == "/create" { creator::generate(); }
+
+	else if rsp == "/help" { }
+
+	else if rsp == "/exit" {
+		println!("Exit !");
+		return;
+	}
+
+	else { println!("none"); }
+
+	input();
 }
+
+fn main() { input(); }
+
