@@ -1,5 +1,6 @@
 #![allow(warnings)]
 
+use std::path::Path;
 use qrcode_png::*;
 use image;
 use std::error::Error;
@@ -7,8 +8,8 @@ use rqrr::PreparedImage;
 
 
 type BoxResult<T> = Result<T, Box<dyn Error>>;
-fn read() -> BoxResult<Vec<String>> {
-	let img = image::open("./qrcode.png")?.to_luma8();
+fn read(filepath: &str) -> BoxResult<Vec<String>> {
+	let img = image::open(filepath)?.to_luma8();
 	let mut prepared_img = PreparedImage::prepare(img);
 
 	let grids = prepared_img.detect_grids();
@@ -32,10 +33,16 @@ fn generate() {
 	std::fs::write("./qrcode.png", buf).unwrap();
 }
 
+
 fn main() {
-	let x = read().unwrap();
+	let cmtype = std::env::args().nth(1).expect("no pattern given");
+	
+	if cmtype == "scan" {
+		let fileph = std::env::args().nth(2).expect("no pattern given");
 
-	println!("{:?}", x);
+		if Path::new(&fileph).exists() == true { println!("{:?}", read(&fileph).unwrap()); }
+		else { println!("Incorrect file path :("); }
+	}
 
-	//generate();
+	if cmtype == "create" { generate(); }
 }
