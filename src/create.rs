@@ -1,8 +1,8 @@
 pub mod creator {
 	use qrcode_png::*;
 
-	pub fn generate() {
-		let mut qrcode = QrCode::new(b"Hello Rust ! Iam NKR413", QrCodeEcc::Medium).unwrap();
+	pub fn generate(txt: &str) {
+		let mut qrcode = QrCode::new(txt, QrCodeEcc::Medium).unwrap();
 
 		qrcode.margin(10);
 		qrcode.zoom(10);

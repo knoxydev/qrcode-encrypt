@@ -1,6 +1,7 @@
 #![allow(warnings)]
 
 use std::path::Path;
+extern crate base64;
 
 // MODULES
 mod read;
@@ -11,35 +12,29 @@ pub use crate::create::creator;
 
 
 fn input() {
-	println!("\nEnter command 'scan/create/help' -> ");
+	let action = std::env::args().nth(1).expect("no pattern given");
+	
+	if action == "create" {
 
-	let mut resp = String::new();
-	std::io::stdin().read_line(&mut resp).expect("Failes");
-	let rsp = &resp[0..&resp.len() - 2].to_string();
+		let encode = std::env::args().nth(2).expect("no pattern given");
+		let text = std::env::args().nth(3).expect("no pattern given");
 
-	if rsp == "/scan" {
-		println!("\nEnter file name -> ");
+		if encode == "base64" { creator::generate(&base64::encode(text.into_bytes())); }
+		else if encode == "hex" { creator::generate(&hex::encode(text)); }
+		else if encode == "txt" { creator::generate(&text);}
+		else { println!("Incorrect encode method"); }
 
-		let mut new_resp = String::new();
-		std::io::stdin().read_line(&mut new_resp).expect("Failes");
-		let fileph = &new_resp[0..&new_resp.len() - 2].to_string();
+	} else if action == "scan" {
+		let encode = std::env::args().nth(2).expect("no pattern given");
+		let fileph = std::env::args().nth(3).expect("no pattern given");
 
-		if Path::new(&fileph).exists() == true { println!("{:?}", reader::scan(&fileph).unwrap()); }
+		if Path::new(&fileph).exists() == true { println!("{:?}", reader::scan(&fileph, &encode).unwrap()); }
 		else { println!("Incorrect file name or file path :("); }
-	}
 
-	else if rsp == "/create" { creator::generate(); }
-
-	else if rsp == "/help" { }
-
-	else if rsp == "/exit" {
-		println!("Exit !");
+	} else {
+		println!("Incorrect command !");
 		return;
 	}
-
-	else { println!("none"); }
-
-	input();
 }
 
 fn main() { input(); }
