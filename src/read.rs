@@ -4,7 +4,7 @@ pub mod reader {
 	use std::error::Error;
 	use rqrr::PreparedImage;
 	extern crate cipher_crypt;
-	use cipher_crypt::{Rot13};
+	use cipher_crypt::{Cipher, Rot13, Caesar};
 
 	pub fn scan(filepath: &str, encode: &str) -> Result<String, Box<dyn Error>> {
 		let img = image::open(filepath)?.to_luma8();
@@ -35,6 +35,10 @@ pub mod reader {
 		else if encode == "rot13" {
 			let x = Rot13::decrypt(&contents[0]);
 			res = x.to_string();
+		}
+		else if encode == "caesar" {
+			let c = Caesar::new(4);
+			res = c.decrypt(&contents[0]).unwrap();
 		}
 		else if encode == "txt" { res = contents[0].to_string(); }
 		else { println!("Incorrect encode method"); }
