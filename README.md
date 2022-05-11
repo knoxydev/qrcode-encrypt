@@ -5,6 +5,7 @@
     - hex
     - morse
     - rot13
+    - caesar
     - text
 
 - #### If you want to create a QRcode
