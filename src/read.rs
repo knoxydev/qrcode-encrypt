@@ -6,7 +6,10 @@ pub mod reader {
 	extern crate cipher_crypt;
 	use cipher_crypt::{Cipher, Rot13, Caesar};
 
-	pub fn scan(filepath: &str, encode: &str) -> Result<String, Box<dyn Error>> {
+	use std::fs::File;
+	use std::io::Write;
+
+	pub fn scan(filepath: &str, encode: &str) -> Result<(), Box<dyn Error>> {
 		let img = image::open(filepath)?.to_luma8();
 		let mut prepared_img = PreparedImage::prepare(img);
 
@@ -43,6 +46,9 @@ pub mod reader {
 		else if encode == "txt" { res = contents[0].to_string(); }
 		else { println!("Incorrect encode method"); }
 
-		Ok(res)
+		let mut output = File::create("result-qrcode.txt")?;
+    write!(output, "{}", res)?;
+
+		Ok(())
 	}
 }
