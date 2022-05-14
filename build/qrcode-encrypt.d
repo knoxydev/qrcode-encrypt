@@ -1,0 +1,1 @@
+C:\Users\USER\Desktop\qrcode-encrypt\target\release\qrcode-encrypt.exe: C:\Users\USER\Desktop\qrcode-encrypt\src\create.rs C:\Users\USER\Desktop\qrcode-encrypt\src\main.rs C:\Users\USER\Desktop\qrcode-encrypt\src\read.rs
