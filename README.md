@@ -13,10 +13,18 @@
     
 ---
 
-- #### If you want to create a QRcode
+### If you want to create a QRcode
     - cargo run `create` `<encryption>` `<key>` `<text>`
-- #### If you want to read a QRcode
+### If you want to read a QRcode
     - cargo run `scan` `<encryption>` `<key>` `<filename>`
+
+---
+
+### For Example
+- Create a QRcode with key
+    - cargo run `create` `caesar` `4` `text-and-something`
+- Read a QRcode without key
+    - cargo run `scan` `base64` `--key` `qrcode.png`
 
 ---
 
