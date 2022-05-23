@@ -9,7 +9,7 @@ pub mod reader {
 	use std::fs::File;
 	use std::io::Write;
 
-	pub fn scan(filepath: &str, encode: &str) -> Result<(), Box<dyn Error>> {
+	pub fn scan(filepath: &str, key: &str, encode: &str) -> Result<(), Box<dyn Error>> {
 		let img = image::open(filepath)?.to_luma8();
 		let mut prepared_img = PreparedImage::prepare(img);
 
@@ -22,6 +22,40 @@ pub mod reader {
 		content}).collect::<Vec<String>>();
 
 		let mut res = String::new();
+
+		// CHECKING KEY
+		let base_one = ["base64", "hex", "txt", "morse", "rot13"];
+		let base_two = ["vigenere"];
+
+		let mut exit_one: bool = false;
+		let mut exit_two: bool = false;
+
+		for i in base_one {
+			if encode == i {
+				if key != "--key" {
+					exit_one = true;
+					break;
+				}
+			}
+		}
+		for i in base_two {
+			if encode == i {
+				if key == "--key" {
+					exit_two = true;
+					break;
+				}
+			}
+		}
+
+		if exit_one == true {
+			println!("This method doesn't require a key");
+			return Ok(())
+		}
+		if exit_two == true {
+			println!("This method requires a key");
+			return Ok(())
+		}
+		// CHECKING KEY
 		
 		if encode == "base64" {
 			let x = base64::decode(contents[0].to_string()).unwrap();
@@ -40,7 +74,8 @@ pub mod reader {
 			res = x.to_string();
 		}
 		else if encode == "caesar" {
-			let c = Caesar::new(4);
+			let num = key.parse::<i64>().unwrap();
+			let c = Caesar::new(num.try_into().unwrap());
 			res = c.decrypt(&contents[0]).unwrap();
 		}
 		else if encode == "txt" { res = contents[0].to_string(); }
