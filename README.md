@@ -8,8 +8,9 @@
     - rot13
     - text
 - the key is required
-    - caesar - only the number
-    - vigenere
+    - caesar - key type: Number
+    - vigenere - key type: String
+    - porta - key type: String
     
 ---
 
