@@ -4,7 +4,7 @@ pub mod reader {
 	use std::error::Error;
 	use rqrr::PreparedImage;
 	extern crate cipher_crypt;
-	use cipher_crypt::{Cipher, Rot13, Caesar};
+	use cipher_crypt::{Cipher, Rot13, Caesar, Vigenere, Porta};
 
 	use std::fs::File;
 	use std::io::Write;
@@ -25,7 +25,7 @@ pub mod reader {
 
 		// CHECKING KEY
 		let base_one = ["base64", "hex", "txt", "morse", "rot13"];
-		let base_two = ["vigenere"];
+		let base_two = ["caesar", "vigenere", "porta"];
 
 		let mut exit_one: bool = false;
 		let mut exit_two: bool = false;
@@ -73,12 +73,20 @@ pub mod reader {
 			let x = Rot13::decrypt(&contents[0]);
 			res = x.to_string();
 		}
+		else if encode == "txt" { res = contents[0].to_string(); }
 		else if encode == "caesar" {
 			let num = key.parse::<i64>().unwrap();
-			let c = Caesar::new(num.try_into().unwrap());
-			res = c.decrypt(&contents[0]).unwrap();
+			let x = Caesar::new(num.try_into().unwrap());
+			res = x.decrypt(&contents[0]).unwrap();
 		}
-		else if encode == "txt" { res = contents[0].to_string(); }
+		else if encode == "vigenere" {
+			let x = Vigenere::new((&key).to_string());
+			res = x.decrypt(&contents[0]).unwrap();
+		}
+		else if encode == "porta" {
+			let x = Porta::new((&key).to_string());
+			res = x.decrypt(&contents[0]).unwrap();
+		}
 		else { println!("Incorrect encode method"); }
 
 		let mut output = File::create("result-qrcode.txt")?;
