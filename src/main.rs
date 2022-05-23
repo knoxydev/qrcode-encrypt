@@ -17,15 +17,17 @@ fn input() {
 	if action == "create" {
 
 		let encode = std::env::args().nth(2).expect("no pattern given");
-		let text = std::env::args().nth(3).expect("no pattern given");
-		creator::start(&encode, &text);
+		let key = std::env::args().nth(3).expect("no pattern given");
+		let text = std::env::args().nth(4).expect("no pattern given");
+		creator::start(&encode, &key, &text);
 
 	} else if action == "scan" {
 
 		let encode = std::env::args().nth(2).expect("no pattern given");
-		let fileph = std::env::args().nth(3).expect("no pattern given");
+		let key = std::env::args().nth(3).expect("no pattern given");
+		let fileph = std::env::args().nth(4).expect("no pattern given");
 
-		if Path::new(&fileph).exists() == true { println!("{:?}", reader::scan(&fileph, &encode).unwrap()); }
+		if Path::new(&fileph).exists() == true { println!("{:?}", reader::scan(&fileph, &key, &encode).unwrap()); }
 		else { println!("Incorrect file name or file path :("); }
 
 	} else {
