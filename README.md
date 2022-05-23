@@ -14,9 +14,9 @@
 ---
 
 ### If you want to create a QRcode
-    - cargo run `create` `<encryption>` `<key>` `<text>`
+- cargo run `create` `<encryption>` `<key>` `<text>`
 ### If you want to read a QRcode
-    - cargo run `scan` `<encryption>` `<key>` `<filename>`
+- cargo run `scan` `<encryption>` `<key>` `<filename>`
 
 ---
 
