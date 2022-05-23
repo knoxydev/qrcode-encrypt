@@ -21,10 +21,12 @@
 ---
 
 ### For Example
-- Create a QRcode with key
-    - cargo run `create` `caesar` `4` `text-and-something`
-- Read a QRcode without key
-    - cargo run `scan` `base64` `--key` `qrcode.png`
+- Create/Read a QRcode with key
+    - `cargo run create caesar 4 some-text`
+    - `cargo run scan vigenere abc qrcode.png`
+- Create/Read a QRcode without key
+    - `cargo run create base64 --key some-text`
+    - `cargo run scan morse --key qrcode.png`
 
 ---
 
