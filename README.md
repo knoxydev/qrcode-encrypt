@@ -9,6 +9,7 @@
     - text
 - the key is required
     - caesar - key type: Number
+    - scytale - key type: Number
     - vigenere - key type: String
     - porta - key type: String
     
