@@ -3,7 +3,7 @@ pub mod creator {
 	use qrcode_png::*;
 	extern crate base64;
 	extern crate cipher_crypt;
-	use cipher_crypt::{Cipher, Rot13, Caesar, Vigenere, Porta};
+	use cipher_crypt::{Cipher, Rot13, Caesar, Vigenere, Porta, Scytale};
 	// OTHER PACKAGES: hex, crypto_morse
 
 	fn generate(txt: &str) {
@@ -19,7 +19,7 @@ pub mod creator {
 	pub fn start(encd: &str, key: &str, txt: &str) {
 		// CHECKING KEY
 		let base_one = ["base64", "hex", "txt", "morse", "rot13"];
-		let base_two = ["caesar", "vigenere", "porta"];
+		let base_two = ["caesar", "vigenere", "porta", "scytale"];
 
 		let mut exit_one: bool = false;
 		let mut exit_two: bool = false;
@@ -61,6 +61,11 @@ pub mod creator {
 		}
 		else if encd == "porta" {
 			let k = Porta::new((&key).to_string());
+			generate(&k.encrypt(&txt).unwrap());
+		}
+		else if encd == "scytale" {
+			let num = key.parse::<i64>().unwrap();
+			let k = Scytale::new(num.try_into().unwrap());
 			generate(&k.encrypt(&txt).unwrap());
 		}
 		else { println!("Incorrect encode method"); }

@@ -4,7 +4,7 @@ pub mod reader {
 	use std::error::Error;
 	use rqrr::PreparedImage;
 	extern crate cipher_crypt;
-	use cipher_crypt::{Cipher, Rot13, Caesar, Vigenere, Porta};
+	use cipher_crypt::{Cipher, Rot13, Caesar, Vigenere, Porta, Scytale};
 
 	use std::fs::File;
 	use std::io::Write;
@@ -25,7 +25,7 @@ pub mod reader {
 
 		// CHECKING KEY
 		let base_one = ["base64", "hex", "txt", "morse", "rot13"];
-		let base_two = ["caesar", "vigenere", "porta"];
+		let base_two = ["caesar", "vigenere", "porta", "scytale"];
 
 		let mut exit_one: bool = false;
 		let mut exit_two: bool = false;
@@ -85,6 +85,11 @@ pub mod reader {
 		}
 		else if encode == "porta" {
 			let x = Porta::new((&key).to_string());
+			res = x.decrypt(&contents[0]).unwrap();
+		}
+		else if encode == "scytale" {
+			let num = key.parse::<i64>().unwrap();
+			let x = Scytale::new(num.try_into().unwrap());
 			res = x.decrypt(&contents[0]).unwrap();
 		}
 		else { println!("Incorrect encode method"); }
