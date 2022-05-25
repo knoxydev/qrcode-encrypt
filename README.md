@@ -2,23 +2,23 @@
 
 ### Encryption
 - the key doesn't require (if the key isn't required, write `--key` in the `<key>` clause)
-    - base64
-    - hex
-    - morse
-    - rot13
-    - text
+    - `base64`
+    - `hex`
+    - `morse`
+    - `rot13`
+    - `text`
 - the key is required
-    - caesar - key type: Number
-    - scytale - key type: Number
-    - vigenere - key type: String
-    - porta - key type: String
+    - `caesar` - key type: `Number`
+    - `scytale` - key type: `Number`
+    - `vigenere` - key type: `String`
+    - `porta` - key type: `String`
     
 ---
 
 ### If you want to create a QRcode
-- cargo run `create` `<encryption>` `<key>` `<text>`
+- `cargo run create <encryption> <key> <text>`
 ### If you want to read a QRcode
-- cargo run `scan` `<encryption>` `<key>` `<filename>`
+- `cargo run scan <encryption> <key> <filename>`
 
 ---
 
