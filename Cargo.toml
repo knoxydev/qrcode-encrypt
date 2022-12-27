@@ -1,15 +1,16 @@
 [package]
 name = "qrcode-encrypt"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-qrcode-png = "*"
-image = "0.24.2"
-rqrr = "0.5.1"
 base64 = "0.20.0-alpha.1"
-hex = "0.4"
-crypto-morse = "0.2.0"
 cipher-crypt = "^0.16"
+clap = { version = "4.0.32", features = ["derive"] }
+crypto-morse = "0.2.0"
+image = "0.24.2"
+hex = "0.4"
+rqrr = "0.5.1"
+qrcode-png = "*"
