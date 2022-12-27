@@ -51,13 +51,19 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run building
-        run: cargo build --verbose
+        run: cargo build --release --verbose
+
+      - name: Copy content
+        run: |
+          cp VERSION target/release/
+          cp CHANGELOG target/release/
+          cp README.md target/release/
 
       - name: Create archive
         id: archive
         uses: vimtor/action-zip@5f1c4aa587ea41db1110df6a99981dbe19cee310
         with:
-          files: target/
+          files: ./target
           dest: qrcode-encrypt-${{ needs.create-release.outputs.version_output }}.zip
           recursive: true
 
