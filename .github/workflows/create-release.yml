@@ -35,8 +35,8 @@ jobs:
           draft: false
           prerelease: false
           body_path: CHANGELOG
-          tag_name: stego-${{ steps.version.outputs.project_version }}
-          release_name: stego-${{ steps.version.outputs.project_version }}
+          tag_name: qrcode-encrypt-${{ steps.version.outputs.project_version }}
+          release_name: qrcode-encrypt-${{ steps.version.outputs.project_version }}
 
   linux-build:
     name: Linux build
